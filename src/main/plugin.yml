@@ -1,0 +1,6 @@
+name: SchemUpload
+version: "1.0"
+description: SchemUpload plugin for SchemUpload mod
+depend: [WorldEdit]
+author: phonis
+main: dev.phonis.schemupload.SchemUpload
