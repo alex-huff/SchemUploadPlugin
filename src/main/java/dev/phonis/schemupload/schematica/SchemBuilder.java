@@ -1,5 +1,7 @@
 package dev.phonis.schemupload.schematica;
 
+import dev.phonis.schemupload.networking.StartUpload;
+
 public class SchemBuilder {
 
     private final int length;
@@ -15,6 +17,10 @@ public class SchemBuilder {
         this.startY = startY;
         this.startZ = startZ;
         this.schemData = new byte[this.length];
+    }
+
+    public SchemBuilder(StartUpload startUpload) {
+        this(startUpload.length, startUpload.startX, startUpload.startY, startUpload.startZ);
     }
 
     public void addData(byte[] data) {

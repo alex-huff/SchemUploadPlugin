@@ -1,5 +1,6 @@
 package dev.phonis.schemupload.networking;
 
+import dev.phonis.schemupload.SchemUpload;
 import dev.phonis.schemupload.schematica.Schem;
 import dev.phonis.schemupload.schematica.SchemBuilder;
 import org.bukkit.entity.Player;
@@ -47,11 +48,11 @@ public class SUListener implements PluginMessageListener {
     private void handlePacket(String s, Player player, SUPacket packet) {
         if (packet instanceof StartUpload) {
             StartUpload startUpload = (StartUpload) packet;
-            SchemBuilder schemBuilder = new SchemBuilder(startUpload.length, startUpload.startX, startUpload.startY, startUpload.startZ);
+            SchemBuilder schemBuilder = new SchemBuilder(startUpload);
 
-            player.sendMessage("Uploading schem of size " + startUpload.length + " bytes.");
+            player.sendMessage(SchemUpload.prefix + "Uploading schem of size " + startUpload.length + " bytes.");
             this.builderMap.put(player.getUniqueId(), schemBuilder);
-            player.sendMessage(schemBuilder.getProgress());
+            player.sendMessage(SchemUpload.prefix + schemBuilder.getProgress());
         } else if (packet instanceof UploadSegment) {
             UploadSegment uploadSegment = (UploadSegment) packet;
             SchemBuilder schemBuilder = this.builderMap.get(player.getUniqueId());
@@ -61,7 +62,7 @@ public class SUListener implements PluginMessageListener {
             }
 
             schemBuilder.addData(uploadSegment.payload);
-            player.sendMessage(schemBuilder.getProgress());
+            player.sendMessage(SchemUpload.prefix + schemBuilder.getProgress());
 
             if (schemBuilder.isReady()) {
                 Schem schem = schemBuilder.getSchem();

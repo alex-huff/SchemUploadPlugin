@@ -13,6 +13,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.registry.LegacyWorldData;
+import dev.phonis.schemupload.SchemUpload;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -37,12 +38,12 @@ public class Schem {
         try {
             org.bukkit.World world = player.getWorld();
 
-            player.sendMessage("Pasting schematica in world '" + world.getName() + ".'");
+            player.sendMessage(SchemUpload.prefix + "Pasting schematica in world '" + world.getName() + ".'");
             this.pasteSchem(world);
-            player.sendMessage("Done pasting schematica.");
+            player.sendMessage(SchemUpload.prefix + "Done pasting schematica.");
         } catch (Throwable e) {
             e.printStackTrace();
-            player.sendMessage("Failed to paste schematica.");
+            player.sendMessage(SchemUpload.prefix + "Failed to paste schematica.");
         }
     }
 
