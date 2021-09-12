@@ -49,7 +49,7 @@ public class Schem {
         }
     }
 
-    private void pasteSchem(org.bukkit.World world, Player player) throws Throwable {
+    private void pasteSchem(org.bukkit.World world, Player player) throws Exception {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
         WorldEditPlugin wep;
 
@@ -79,18 +79,15 @@ public class Schem {
             throw new Exception("IOException during load to clipboard.");
         }
 
-        LocalSession session = wep.getSession(player);
-        EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession((World) new BukkitWorld(world), Integer.MAX_VALUE);
+        EditSession editSession = wep.createEditSession(player);
         Operation operation = new ClipboardHolder(
             clipboard,
             LegacyWorldData.getInstance()
         ).createPaste(editSession, LegacyWorldData.getInstance()).to(new Vector(this.startX, this.startY, this.startZ)).build();
 
-        editSession.enableQueue();
         Operations.complete(operation);
         Operations.complete(editSession.commit());
-        editSession.flushQueue();
-        session.remember(editSession);
+        wep.remember(player, editSession);
     }
 
 }
