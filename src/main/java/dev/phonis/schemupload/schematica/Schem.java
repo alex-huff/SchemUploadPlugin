@@ -1,6 +1,7 @@
 package dev.phonis.schemupload.schematica;
 
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
@@ -16,6 +17,7 @@ import com.sk89q.worldedit.world.registry.LegacyWorldData;
 import dev.phonis.schemupload.SchemUpload;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class Schem {
             org.bukkit.World world = player.getWorld();
 
             player.sendMessage(SchemUpload.prefix + "Pasting schematica in world '" + world.getName() + ".'");
-            this.pasteSchem(world);
+            this.pasteSchem(world, player);
             player.sendMessage(SchemUpload.prefix + "Done pasting schematica.");
         } catch (Throwable e) {
             e.printStackTrace();
@@ -47,8 +49,13 @@ public class Schem {
         }
     }
 
-    private void pasteSchem(org.bukkit.World world) throws Throwable {
-        if (!(Bukkit.getPluginManager().getPlugin("WorldEdit") instanceof WorldEditPlugin)) {
+    private void pasteSchem(org.bukkit.World world, Player player) throws Throwable {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
+        WorldEditPlugin wep;
+
+        if (Bukkit.getPluginManager().getPlugin("WorldEdit") instanceof WorldEditPlugin) {
+            wep = (WorldEditPlugin) plugin;
+        } else {
             throw new Exception("Invalid WorldEdit.");
         }
 
@@ -72,6 +79,7 @@ public class Schem {
             throw new Exception("IOException during load to clipboard.");
         }
 
+        LocalSession session = wep.getSession(player);
         EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession((World) new BukkitWorld(world), Integer.MAX_VALUE);
         Operation operation = new ClipboardHolder(
             clipboard,
@@ -82,6 +90,7 @@ public class Schem {
         Operations.complete(operation);
         Operations.complete(editSession.commit());
         editSession.flushQueue();
+        session.remember(editSession);
     }
 
 }
