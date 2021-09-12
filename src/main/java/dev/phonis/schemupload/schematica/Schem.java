@@ -1,10 +1,7 @@
 package dev.phonis.schemupload.schematica;
 
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
@@ -12,7 +9,6 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.session.ClipboardHolder;
-import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.registry.LegacyWorldData;
 import dev.phonis.schemupload.SchemUpload;
 import org.bukkit.Bukkit;
