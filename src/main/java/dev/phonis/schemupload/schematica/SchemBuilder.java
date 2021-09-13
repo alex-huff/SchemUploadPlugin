@@ -24,7 +24,7 @@ public class SchemBuilder {
     }
 
     public void addData(byte[] data) {
-        System.arraycopy(data, 0, schemData, this.current, data.length);
+        System.arraycopy(data, 0, this.schemData, this.current, data.length);
 
         this.current += data.length;
     }
