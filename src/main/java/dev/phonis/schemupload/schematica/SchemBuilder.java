@@ -30,7 +30,7 @@ public class SchemBuilder {
     }
 
     public boolean isReady() {
-        return this.current == length;
+        return this.current == this.length;
     }
 
     public Schem getSchem() {
